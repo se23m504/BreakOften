@@ -54,7 +54,6 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: build
-          path: .vercel/
 
       - name: Install Vercel CLI
         run: npm install --global vercel@canary
