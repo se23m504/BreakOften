@@ -10,6 +10,9 @@
   function toggleTheme() {
     const currentIndex = themes.indexOf(theme)
     theme = themes[(currentIndex + 1) % themes.length]
+    // if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
+    //   localStorage.setItem("theme", theme)
+    // }
   }
 
   let icon = $derived.by(() => {
