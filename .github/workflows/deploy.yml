@@ -1,4 +1,7 @@
-name: Deploy to GitHub Pages
+name: Build and deploy
+
+permissions:
+  contents: write
 
 on:
   push:
@@ -6,18 +9,19 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-and-deploy:
+    concurrency: ci-${{ github.ref }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Install and Build
         run: |
           npm install
           npm run build
           
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@latest
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: gh-pages
           folder: public
