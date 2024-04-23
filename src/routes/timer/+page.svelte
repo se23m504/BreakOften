@@ -14,8 +14,6 @@
   import { onDestroy, onMount } from "svelte";
   import { writable } from "svelte/store";
   import type { Writable } from "svelte/store";
-  import { Sound } from "svelte-sound";
-  import click_mp4 from "../../assets/Bells.mp3";
 
   const MINI_BREAK_DURATION = 0.15 * 60 * 1000; // 1 minutes
   // const MINI_BREAK_DURATION = 20 * 60 * 1000; // 20 minutes
@@ -26,9 +24,15 @@
   let timer: number | null = null;
   let miniBreakCount = 0;
 
-  const click_sound = new Sound(click_mp4);
+  let audio: HTMLAudioElement | null = null;
+
   const playSound = () => {
-    // click_sound.play();
+    if (audio) {
+      // audio.pause();
+      audio.src = "/sounds/Bells.mp3";
+      audio.volume = 0.4;
+      // audio.play();
+    }
   };
 
   const showNotification = (title: string, options: NotificationOptions) => {
@@ -89,11 +93,13 @@
   };
 
   onMount(() => {
+    audio = document.createElement('audio');
     startTimer();
   });
 
   onDestroy(() => {
     if (timer) clearInterval(timer);
+    if (audio) audio = null;
   });
 
   const skipBreak = () => {
