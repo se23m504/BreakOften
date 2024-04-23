@@ -23,7 +23,11 @@ const config = {
     // Use different adapters based on the environment. 
     // For GitHub Pages deployment, use svelte-adapter-ghpages. 
     // For local development, you can use a different adapter like @sveltejs/adapter-static or any other suitable one.
-    adapter: process.env.NODE_ENV === 'production' ? adapterGhpages() : adapter(),
+    adapter: process.env.NODE_ENV === 'production' ? adapterGhpages({
+      pages: 'build',
+      assets: 'build',
+      fallback: null
+    }) : adapter(),
     paths: {
       base: process.env.NODE_ENV === 'production' ? "/BreakOften" : "",
     },
