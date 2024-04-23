@@ -16,6 +16,7 @@ export const handle: Handle = async ({ event, resolve }) => {
   event.setHeaders({
     "cache-control": `private, max-age=${5 * 60}`,
   })
+
   const response = await resolve(event, {
     transformPageChunk: ({ html }) => html.replace("%THEME%", theme),
   })

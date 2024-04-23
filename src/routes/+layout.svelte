@@ -1,21 +1,20 @@
 <script lang="ts">
   import NavBar from "$lib/components/NavBar.svelte"
-  import ThemePicker, { type Theme } from "$lib/components/ThemePicker.svelte"
+  import type { Theme } from "../hooks.server"
+  import { browser } from "$app/environment"
 
   import "../app.css"
-
-  // let lastTheme: string | null = null
-  // if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
-  //   lastTheme = localStorage.getItem("theme") || "dark"
-  // }
 
   let { data } = $props()
 
   let theme = $state(data.theme as Theme)
+
+  $effect(() => {
+    browser && (document.documentElement.dataset.theme = theme)
+  })
 </script>
 
-<div data-theme={theme}>
-  <!-- <ThemePicker bind:theme /> -->
+<div>
   <NavBar bind:theme />
 
   <slot />

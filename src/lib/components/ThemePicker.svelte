@@ -6,24 +6,27 @@
   import { slide } from "svelte/transition"
   import type { Theme } from "../../hooks.server"
   import { applyAction, enhance } from "$app/forms"
+  import { browser } from "$app/environment"
+
   let { theme } = $props<{ theme: Theme }>()
 
   function toggleTheme() {
     const currentIndex = themes.indexOf(theme)
     theme = themes[(currentIndex + 1) % themes.length]
     if (theme == "auto") {
-      theme = window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "light"
-        : "dark"
+      theme =
+        browser && window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "light"
+          : "dark"
     }
-    console.log(theme)
   }
 
   let icon = $derived.by(() => {
     if (theme === "light") return "🌞"
     if (theme === "dark") return "🌙"
     if (theme === "auto")
-      return window.matchMedia("(prefers-color-scheme: dark)").matches
+      return browser &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "🌙"
         : "🌞"
   })
