@@ -1,38 +1,26 @@
-# create-svelte
+# BreakOften
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+BreakOften is a simple web application built with Svelte that helps users prevent computer vision syndrome by reminding them to take regular breaks.
 
-## Creating a project
+## Features
 
-If you're seeing this, you've probably already done this step. Congrats!
+- Regular mini breaks every 20 minutes and 20 seconds.
+- After every three mini breaks, a long break of 5 minutes is provided.
+- Users can skip or postpone breaks.
+- Customizable break durations.
+- Sound and notification alerts for break reminders.
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+## Usage
 
-# create a new project in my-app
-npm create svelte@latest my-app
+1. Clone and cd into the repository.
+2. Install dependencies:
+
+```
+npm install
 ```
 
-## Developing
+3. Run the development server:
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
+```
 npm run dev -- --open
 ```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
