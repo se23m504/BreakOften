@@ -28,6 +28,9 @@ const config = {
       assets: 'build',
       fallback: null
     }) : adapter(),
+    prerender: {
+      entries: []
+    },
     paths: {
       base: process.env.NODE_ENV === 'production' ? "/BreakOften" : "",
     },
