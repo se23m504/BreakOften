@@ -3,7 +3,6 @@ import { vitePreprocess } from "@sveltejs/vite-plugin-svelte"
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-
   // vitePlugin: {
   //     dynamicCompileOptions({filename}){
   //       if(filename.includes('node_modules')){
@@ -13,8 +12,8 @@ const config = {
   // },
 
   // compilerOptions: {
-	// 	runes: true
-	// },
+  // 	runes: true
+  // },
 
   // Consult https://kit.svelte.dev/docs/integrations#preprocessors
   // for more information about preprocessors

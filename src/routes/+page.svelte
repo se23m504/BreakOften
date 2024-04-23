@@ -4,7 +4,7 @@
 </main>
 
 <style lang="postcss">
-main {
+  main {
     @apply text-center;
     @apply mx-auto my-64;
   }

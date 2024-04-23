@@ -24,4 +24,3 @@
     @apply bg-background text-foreground;
   }
 </style>
-

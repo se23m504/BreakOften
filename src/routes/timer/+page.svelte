@@ -135,9 +135,7 @@
 
 <main>
   <div>
-    <h1>
-      Prevent CVS
-    </h1>
+    <h1>Prevent CVS</h1>
     {#if $state !== "Ready"}
       <p>{$state}</p>
       <p>Time left until end of break: {$timeLeftDisplay}</p>
@@ -145,13 +143,10 @@
       <p>Time left until break: {$timeLeftDisplay}</p>
     {/if}
     {#if $state !== "Ready"}
-      <button
-        on:click={skipBreak}>Skip Break</button
-      >
+      <button on:click={skipBreak}>Skip Break</button>
     {/if}
   </div>
 </main>
-
 
 <style lang="postcss">
   main {
