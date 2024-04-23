@@ -28,3 +28,4 @@ vite.config.ts.timestamp-*
 /tailwind.css
 *.svelte-kit
 /.vite
+/public
