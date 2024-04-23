@@ -20,10 +20,10 @@ const config = {
   // for more information about preprocessors
   preprocess: vitePreprocess(),
   kit: {
-    // Use different adapters based on the environment. 
-    // For GitHub Pages deployment, use svelte-adapter-ghpages. 
+    // Use different adapters based on the environment.
+    // For GitHub Pages deployment, use svelte-adapter-ghpages.
     // For local development, you can use a different adapter like @sveltejs/adapter-static or any other suitable one.
-    adapter: adapter()
+    adapter: adapter(),
     // adapter: process.env.NODE_ENV === 'production' ? adapterGhpages({
     //   pages: 'build',
     //   assets: 'build',
