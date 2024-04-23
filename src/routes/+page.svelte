@@ -1,4 +1,4 @@
-<script context="module">
+<!-- <script context="module">
     export async function load() {
         const res = await fetch("https://api.example.com/data");
         const data = await res.json();
@@ -8,19 +8,17 @@
             },
         };
     }
-</script>
+</script> -->
 
 <script>
-    export let data;
-
     import { goto } from "$app/navigation";
-    import { writable } from "svelte/store";
+    // import { writable } from "svelte/store";
 
     const startApp = () => {
         goto("/timer");
     };
 
-    const theme = writable("dark");
+    // const theme = writable("dark");
 </script>
 
 <main>
