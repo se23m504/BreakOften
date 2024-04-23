@@ -1,46 +1,26 @@
-<!-- <script context="module">
-    export async function load() {
-        const res = await fetch("https://api.example.com/data");
-        const data = await res.json();
-        return {
-            props: {
-                data,
-            },
-        };
-    }
-</script> -->
-
-<script>
-    import { goto } from "$app/navigation";
-    // import { writable } from "svelte/store";
-
-    const startApp = () => {
-        goto("/timer");
-    };
-
-    // const theme = writable("dark");
-</script>
-
 <main>
-    <h1>Welcome to the Prevent Computer Vision Syndrome App</h1>
-    <button on:click={startApp}>Start Timer</button>
+  <h1>Welcome to BreakOften!</h1>
+  <a href="/timer">Start Timer</a>
 </main>
 
 <style lang="postcss">
-    main {
-        text-align: center;
-        margin: 100px auto;
-        color: var(--text-color);
-    }
+main {
+    @apply text-center;
+    @apply mx-auto my-64;
+  }
 
-    h1 {
-        font-size: 2.5rem;
-        margin-bottom: 20px;
-    }
+  h1 {
+    @apply text-4xl mb-8;
+  }
 
-    button {
-        padding: 10px 20px;
-        font-size: 1rem;
-        cursor: pointer;
-    }
+  a {
+    @apply inline-block;
+    @apply rounded px-4 py-2;
+    @apply transition duration-300 ease-in-out;
+    @apply bg-primary text-white;
+  }
+
+  a:hover {
+    @apply bg-primaryLight text-white;
+  }
 </style>

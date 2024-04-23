@@ -27,4 +27,4 @@ vite.config.ts.timestamp-*
 /src/lib/generated
 /tailwind.css
 *.svelte-kit
-
+/.vite

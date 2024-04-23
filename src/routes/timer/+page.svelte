@@ -1,39 +1,39 @@
 <script context="module">
   export async function load() {
-    const res = await fetch("https://api.example.com/data");
-    const data = await res.json();
+    const res = await fetch("https://api.example.com/data")
+    const data = await res.json()
     return {
       props: {
         data,
       },
-    };
+    }
   }
 </script>
 
 <script lang="ts">
-  import { onDestroy, onMount } from "svelte";
-  import { writable } from "svelte/store";
-  import type { Writable } from "svelte/store";
+  import { onDestroy, onMount } from "svelte"
+  import { writable } from "svelte/store"
+  import type { Writable } from "svelte/store"
 
-  const MINI_BREAK_DURATION = 0.15 * 60 * 1000; // 1 minutes
+  const MINI_BREAK_DURATION = 0.15 * 60 * 1000 // 1 minutes
   // const MINI_BREAK_DURATION = 20 * 60 * 1000; // 20 minutes
-  const MINI_BREAK_INTERVAL = 5 * 1000; // 20 seconds
+  const MINI_BREAK_INTERVAL = 5 * 1000 // 20 seconds
   // const LONG_BREAK_DURATION = 5 * 60 * 1000; // 5 minutes
-  const LONG_BREAK_DURATION = 0.3 * 60 * 1000; // 2 minutes
+  const LONG_BREAK_DURATION = 0.3 * 60 * 1000 // 2 minutes
 
-  let timer: number | null = null;
-  let miniBreakCount = 0;
+  let timer: number | null = null
+  let miniBreakCount = 0
 
-  let audio: HTMLAudioElement | null = null;
+  let audio: HTMLAudioElement | null = null
 
   const playSound = () => {
     if (audio) {
       // audio.pause();
-      audio.src = "/sounds/Bells.mp3";
-      audio.volume = 0.4;
+      audio.src = "/sounds/Bells.mp3"
+      audio.volume = 0.4
       // audio.play();
     }
-  };
+  }
 
   const showNotification = (title: string, options: NotificationOptions) => {
     if (Notification.permission === "granted") {
@@ -43,138 +43,138 @@
         if (permission === "granted") {
           // new Notification(title, options);
         }
-      });
+      })
     }
-  };
+  }
 
-  const state: Writable<string> = writable("Ready");
-  const timeLeftDisplay: Writable<string> = writable("");
-  const timeLeft: Writable<number> = writable(MINI_BREAK_DURATION);
+  const state: Writable<string> = writable("Ready")
+  const timeLeftDisplay: Writable<string> = writable("")
+  const timeLeft: Writable<number> = writable(MINI_BREAK_DURATION)
 
   const startTimer = () => {
-    if (timer) clearInterval(timer);
+    if (timer) clearInterval(timer)
 
     timer = setInterval(() => {
       timeLeft.update((currentTimeLeft) => {
-        const newTimeLeft = currentTimeLeft - 1000;
+        const newTimeLeft = currentTimeLeft - 1000
         if (newTimeLeft <= 0) {
           if ($state !== "Ready") {
-            state.set("Ready");
-            miniBreakCount++;
-            timeLeftDisplay.set(formatTime(MINI_BREAK_DURATION));
-            showNotification("Ready", { body: "Continue working!" });
-            playSound(); // Adjust volume as needed
-            return MINI_BREAK_DURATION;
+            state.set("Ready")
+            miniBreakCount++
+            timeLeftDisplay.set(formatTime(MINI_BREAK_DURATION))
+            showNotification("Ready", { body: "Continue working!" })
+            playSound() // Adjust volume as needed
+            return MINI_BREAK_DURATION
           }
           if (miniBreakCount === 3) {
-            state.set("Long Break");
-            miniBreakCount = 0;
-            timeLeftDisplay.set(formatTime(LONG_BREAK_DURATION));
+            state.set("Long Break")
+            miniBreakCount = 0
+            timeLeftDisplay.set(formatTime(LONG_BREAK_DURATION))
             showNotification("Long Break", {
               body: "Take a 5-minute break now!",
-            });
-            playSound(); // Adjust volume as needed
-            return LONG_BREAK_DURATION;
+            })
+            playSound() // Adjust volume as needed
+            return LONG_BREAK_DURATION
           } else {
-            state.set("Mini Break");
+            state.set("Mini Break")
             // miniBreakCount++;
-            timeLeftDisplay.set(formatTime(MINI_BREAK_INTERVAL));
+            timeLeftDisplay.set(formatTime(MINI_BREAK_INTERVAL))
             showNotification("Mini Break", {
               body: "Take a 20-second break now!",
-            });
-            playSound(); // Adjust volume as needed
-            return MINI_BREAK_INTERVAL;
+            })
+            playSound() // Adjust volume as needed
+            return MINI_BREAK_INTERVAL
           }
         }
-        timeLeftDisplay.set(formatTime(newTimeLeft));
-        return newTimeLeft;
-      });
-    }, 1000);
-  };
+        timeLeftDisplay.set(formatTime(newTimeLeft))
+        return newTimeLeft
+      })
+    }, 1000)
+  }
 
   onMount(() => {
-    audio = document.createElement('audio');
-    startTimer();
-  });
+    audio = document.createElement("audio")
+    startTimer()
+  })
 
   onDestroy(() => {
-    if (timer) clearInterval(timer);
-    if (audio) audio = null;
-  });
+    if (timer) clearInterval(timer)
+    if (audio) audio = null
+  })
 
   const skipBreak = () => {
     // if (timer) clearInterval(timer);
     if ($state === "Ready") {
-      return;
+      return
     }
-    state.set("Ready");
-    timeLeft.set(MINI_BREAK_DURATION);
-    timeLeftDisplay.set(formatTime(MINI_BREAK_DURATION));
+    state.set("Ready")
+    timeLeft.set(MINI_BREAK_DURATION)
+    timeLeftDisplay.set(formatTime(MINI_BREAK_DURATION))
     // startTimer();
-  };
+  }
 
   const postponeBreak = () => {
     // if (timer) clearInterval(timer);
-    state.set("Ready");
+    state.set("Ready")
     // setTimeout(startTimer, 2 * MINI_BREAK_INTERVAL); // Postpone for 2 mini-break intervals
-    timeLeft.set(MINI_BREAK_DURATION); // Corrected line
-    timeLeftDisplay.set(formatTime(MINI_BREAK_DURATION)); // Use MINI_BREAK_INTERVAL directly
-  };
+    timeLeft.set(MINI_BREAK_DURATION) // Corrected line
+    timeLeftDisplay.set(formatTime(MINI_BREAK_DURATION)) // Use MINI_BREAK_INTERVAL directly
+  }
 
   function formatTime(milliseconds: number) {
-    const totalSeconds = Math.floor(milliseconds / 1000);
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
+    const totalSeconds = Math.floor(milliseconds / 1000)
+    const minutes = Math.floor(totalSeconds / 60)
+    const seconds = totalSeconds % 60
     console.log(
-      `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`,
-    );
+      `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
+    )
 
-    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
   }
 </script>
 
-<main class="min-h-screen flex items-center justify-center bg-gray-100">
-  <div class="max-w-md p-6 bg-white rounded-md shadow-md">
-    <h1 class="text-3xl mb-4 font-bold text-center">
-      Prevent Computer Vision Syndrome
+<main>
+  <div>
+    <h1>
+      Prevent CVS
     </h1>
-    <p>{$state}</p>
     {#if $state !== "Ready"}
-      <p>Time left until Ready: {$timeLeftDisplay}</p>
+      <p>{$state}</p>
+      <p>Time left until end of break: {$timeLeftDisplay}</p>
     {:else}
       <p>Time left until break: {$timeLeftDisplay}</p>
     {/if}
     {#if $state !== "Ready"}
       <button
-        class="px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         on:click={skipBreak}>Skip Break</button
       >
     {/if}
   </div>
 </main>
 
-<!-- 
-<style>
+
+<style lang="postcss">
   main {
-    text-align: center;
-    margin: 100px auto;
-    color: var(--text-color);
+    @apply text-center;
+    @apply mx-auto my-64;
   }
 
   h1 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
+    @apply text-4xl mb-8;
   }
 
   p {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
+    @apply text-base mb-4;
   }
 
   button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    cursor: pointer;
-    margin: 10px;
+    @apply inline-block;
+    @apply rounded px-4 py-2;
+    @apply transition duration-300 ease-in-out;
+    @apply bg-primary text-white;
   }
-</style> -->
+
+  button:hover {
+    @apply bg-primaryLight text-white;
+  }
+</style>
