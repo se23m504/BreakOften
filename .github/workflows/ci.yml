@@ -41,7 +41,8 @@ jobs:
       - name: Upload
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "build/"
+          name: build
+          path: .vercel/
 
   deploy:
     needs: build
@@ -49,6 +50,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: build
+          path: .vercel/
 
       - name: Install Vercel CLI
         run: npm install --global vercel@canary
