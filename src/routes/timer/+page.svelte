@@ -15,9 +15,9 @@
   import { writable } from "svelte/store"
   import type { Writable } from "svelte/store"
 
-  const MINI_BREAK_DURATION = 20 * 60 * 1000; // 20 minutes
+  const MINI_BREAK_DURATION = 20 * 60 * 1000 // 20 minutes
   const MINI_BREAK_INTERVAL = 20 * 1000 // 20 seconds
-  const LONG_BREAK_DURATION = 5 * 60 * 1000; // 5 minutes
+  const LONG_BREAK_DURATION = 5 * 60 * 1000 // 5 minutes
 
   let timer: number | null = null
   let miniBreakCount = 0
@@ -26,20 +26,20 @@
 
   const playSound = () => {
     if (audio) {
-      audio.pause();
+      audio.pause()
       audio.src = "/sounds/Bells.mp3"
       audio.volume = 0.4
-      audio.play();
+      audio.play()
     }
   }
 
   const showNotification = (title: string, options: NotificationOptions) => {
     if (Notification.permission === "granted") {
-      new Notification(title, options);
+      new Notification(title, options)
     } else if (Notification.permission !== "denied") {
       Notification.requestPermission().then((permission) => {
         if (permission === "granted") {
-          new Notification(title, options);
+          new Notification(title, options)
         }
       })
     }
