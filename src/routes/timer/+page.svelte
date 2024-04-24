@@ -1,15 +1,3 @@
-<script context="module">
-  export async function load() {
-    const res = await fetch("https://api.example.com/data")
-    const data = await res.json()
-    return {
-      props: {
-        data,
-      },
-    }
-  }
-</script>
-
 <script lang="ts">
   import { onDestroy, onMount } from "svelte"
   import { writable } from "svelte/store"
