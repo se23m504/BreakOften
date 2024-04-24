@@ -43,6 +43,7 @@ jobs:
         with:
           name: build
           path: .vercel/
+          retention-days: 7
 
   deploy:
     needs: build
