@@ -1,28 +1,23 @@
 import type { Handle } from "@sveltejs/kit"
-
-// export type Theme = "light" | "dark" | "auto"
-export type Theme = "light" | "dark"
-
-export const isValidTheme = (
-  theme: FormDataEntryValue | null
-): theme is Theme => !!theme && (theme === "light" || theme === "dark")
-// !!theme && (theme === "light" || theme === "dark" || theme === "auto")
+import { db } from "$lib/server/database"
 
 export const handle: Handle = async ({ event, resolve }) => {
-  // const theme = event.cookies.get("theme") ?? "auto"
-  const theme = event.cookies.get("theme") ?? "dark"
-  if (isValidTheme(theme)) {
-    event.locals.theme = theme
+  const session = event.cookies.get("session")
+
+  if (!session) {
+    return await resolve(event)
   }
 
-  event.setHeaders({
-    "cache-control": `private, max-age=${5 * 60}`,
+  const user = await db.user.findUnique({
+    where: { userAuthToken: session },
+    select: { username: true },
   })
 
-  const response = await resolve(event, {
-    // transformPageChunk: ({ html }) => html.replace("%THEME%", theme === "auto" ? "dark" : theme),
-    // transformPageChunk: ({ html }) => html.replace("%THEME%", theme),
-  })
+  if (user) {
+    event.locals.user = {
+      name: user.username,
+    }
+  }
 
-  return response
+  return await resolve(event)
 }

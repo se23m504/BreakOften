@@ -1,8 +1,9 @@
 <script lang="ts">
-  import ThemePicker from "./ThemePicker.svelte"
-  import type { Theme } from "../../hooks.server"
+  import { enhance } from "$app/forms"
+  import type { User } from "$lib"
+  import ThemePicker, { type Theme } from "./ThemePicker.svelte"
 
-  let { theme } = $props<{ theme: Theme }>()
+  let { theme, user } = $props<{ theme: Theme; user: User }>()
 
   let links = [
     {
@@ -32,6 +33,19 @@
           {link.title}
         </a>
       {/each}
+
+      {#if !user}
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+      {/if}
+
+      {#if user}
+        <a href="/profile">Profile</a>
+
+        <form class="logout" action="/logout" method="POST" use:enhance>
+          <button type="submit" class="padding">Log out</button>
+        </form>
+      {/if}
 
       <slot name="external-links" />
 
@@ -162,6 +176,10 @@
     gap: 1.5rem;
     padding: 0 1rem;
     line-height: 1;
+  }
+
+  .padding {
+    padding: 0 0.5rem;
   }
 
   .search {

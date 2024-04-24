@@ -1,17 +1,13 @@
 <script lang="ts" context="module">
-  // export const themes = ["light", "dark", "auto"] as const
   export const themes = ["light", "dark"] as const
+  export type Theme = "light" | "dark"
 </script>
 
 <script lang="ts">
-  import { slide } from "svelte/transition"
-  import type { Theme } from "../../hooks.server"
-  // import { applyAction, enhance } from "$app/forms"
   import { browser } from "$app/environment"
 
   let { theme } = $props<{ theme: Theme }>()
 
-  // theme = theme || (browser && localStorage.getItem("theme")) as Theme || "dark"
   theme =
     (browser && (document.documentElement.dataset.theme as Theme)) || "dark"
 
@@ -22,43 +18,13 @@
       localStorage.setItem("theme", theme)
       document.documentElement.dataset.theme = theme
     }
-    // if (theme == "auto") {
-    //   theme =
-    //     browser && window.matchMedia("(prefers-color-scheme: dark)").matches
-    //       ? "light"
-    //       : "dark"
-    // }
   }
 
   let icon = $derived.by(() => {
-    // if (theme === "light") return "🌙"
-    // if (theme === "dark") return "🌞"
     if (theme === "light") return "light"
     if (theme === "dark") return "dark"
-    // if (theme === "auto")
-    //   return browser &&
-    //     window.matchMedia("(prefers-color-scheme: dark)").matches
-    //     ? "🌙"
-    //     : "🌞"
   })
 </script>
-
-<!-- <form
-  method="POST"
-  action="/?/theme"
-  use:enhance={async () => {
-    return async ({ result }) => {
-      await applyAction(result)
-    }
-  }}
-> -->
-<!-- <input name="theme" value={theme} hidden /> -->
-<!-- {#key theme}
-    <button transition:slide={{ axis: "x" }} onclick={toggleTheme}>
-      {icon}
-    </button>
-  {/key} -->
-<!-- </form> -->
 
 {#key theme}
   <button

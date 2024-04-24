@@ -1,22 +1,26 @@
 <script lang="ts">
   import NavBar from "$lib/components/NavBar.svelte"
-  import type { Theme } from "../hooks.server"
   import { browser } from "$app/environment"
 
   import "../app.css"
 
+  import type { Theme } from "$lib/components/ThemePicker.svelte"
+  import type { User } from "$lib"
+
   let { data } = $props()
+
+  let user = $state(data.user as User)
 
   let theme = $state("" as Theme)
 
   $effect(() => {
+    user = data.user
     // browser && (document.documentElement.dataset.theme = theme)
-    // browser && (document.documentElement.dataset.theme = theme === "auto" ? "dark" : theme)
   })
 </script>
 
 <div>
-  <NavBar bind:theme />
+  <NavBar bind:theme bind:user />
 
   <slot />
 </div>

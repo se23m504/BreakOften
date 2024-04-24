@@ -5,11 +5,11 @@ declare global {
     // interface Error {}
     // interface Locals {}
     interface Locals {
-      theme: Theme
+      user: User
     }
-    interface PageData {
-      theme: Theme
-    }
+    // interface PageData {
+    //   theme: Theme
+    // }
     // interface PageData {}
     // interface PageState {}
     // interface Platform {}
