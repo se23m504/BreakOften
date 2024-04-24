@@ -7,10 +7,11 @@
 
   let { data } = $props()
 
-  let theme = $state(data.theme as Theme)
+  let theme = $state("" as Theme)
 
   $effect(() => {
-    browser && (document.documentElement.dataset.theme = theme)
+    // browser && (document.documentElement.dataset.theme = theme)
+    // browser && (document.documentElement.dataset.theme = theme === "auto" ? "dark" : theme)
   })
 </script>
 

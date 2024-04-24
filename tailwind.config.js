@@ -11,12 +11,14 @@ export default {
     createThemes({
       light: {
         background: colors.slate[50],
+        backgroundLight: colors.slate[100],
         foreground: colors.slate[950],
         primary: colors.blue[600],
         primaryLight: colors.blue[800],
       },
       dark: {
         background: colors.slate[950],
+        backgroundLight: colors.slate[700],
         foreground: colors.slate[50],
         primary: colors.pink[600],
         primaryLight: colors.pink[800],
