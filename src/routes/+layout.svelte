@@ -1,6 +1,5 @@
 <script lang="ts">
   import NavBar from "$lib/components/NavBar.svelte"
-  import { browser } from "$app/environment"
 
   import "../app.css"
 
@@ -15,7 +14,6 @@
 
   $effect(() => {
     user = data.user
-    // browser && (document.documentElement.dataset.theme = theme)
   })
 </script>
 

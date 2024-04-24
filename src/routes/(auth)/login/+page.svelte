@@ -1,10 +1,8 @@
 <script lang="ts">
-  import { applyAction, enhance } from "$app/forms"
+  import { enhance } from "$app/forms"
 
   export let form
 </script>
-
-<h1>Login</h1>
 
 <form action="?/login" method="POST" use:enhance>
   <div>

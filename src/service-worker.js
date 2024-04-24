@@ -50,18 +50,3 @@ self.addEventListener("fetch", (event) => {
 
   event.respondWith(respond())
 })
-
-// self.addEventListener('storage', event => {
-//     if (event.key === 'theme') {
-//         const newCacheName = event.newValue === 'dark' ? 'my-cache-dark' : 'my-cache';
-
-//         caches.keys().then(cacheNames => {
-//             return Promise.all(
-//                 cacheNames.filter(cacheName => cacheName === CACHE)
-//                     .map(cacheName => caches.delete(cacheName))
-//             );
-//         }).then(() => {
-//             return caches.open(newCacheName);
-//         })
-//     }
-// })

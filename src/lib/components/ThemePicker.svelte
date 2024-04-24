@@ -20,10 +20,8 @@
     }
   }
 
-  let icon = $derived.by(() => {
-    if (theme === "light") return "light"
-    if (theme === "dark") return "dark"
-  })
+  // let icon = $derived.by(() => theme)
+  let icon = $derived(theme)
 </script>
 
 {#key theme}
