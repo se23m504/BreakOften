@@ -1,10 +1,7 @@
 <script lang="ts">
   import NavBar from "$lib/components/NavBar.svelte"
-
+  import type { Theme, User } from "$lib"
   import "../app.css"
-
-  import type { Theme } from "$lib/components/ThemePicker.svelte"
-  import type { User } from "$lib"
 
   let { data } = $props()
 

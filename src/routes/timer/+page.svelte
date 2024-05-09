@@ -3,8 +3,8 @@
   import { writable } from "svelte/store"
   import type { Writable } from "svelte/store"
 
-  const MINI_BREAK_DURATION = 20 * 60 * 1000 // 20 minutes
-  const MINI_BREAK_INTERVAL = 20 * 1000 // 20 seconds
+  const BREAK_INTERVAL = 20 * 60 * 1000 // 20 minutes
+  const MINI_BREAK_DURATION = 20 * 1000 // 20 seconds
   const LONG_BREAK_DURATION = 5 * 60 * 1000 // 5 minutes
 
   let timer: number | null = null
@@ -35,7 +35,7 @@
 
   const state: Writable<string> = writable("Ready")
   const timeLeftDisplay: Writable<string> = writable("")
-  const timeLeft: Writable<number> = writable(MINI_BREAK_DURATION)
+  const timeLeft: Writable<number> = writable(BREAK_INTERVAL)
 
   const startTimer = () => {
     if (timer) clearInterval(timer)
@@ -47,10 +47,10 @@
           if ($state !== "Ready") {
             state.set("Ready")
             miniBreakCount++
-            timeLeftDisplay.set(formatTime(MINI_BREAK_DURATION))
+            timeLeftDisplay.set(formatTime(BREAK_INTERVAL))
             showNotification("Ready", { body: "Continue working!" })
             playSound()
-            return MINI_BREAK_DURATION
+            return BREAK_INTERVAL
           }
           if (miniBreakCount === 3) {
             state.set("Long Break")
@@ -63,12 +63,12 @@
             return LONG_BREAK_DURATION
           } else {
             state.set("Mini Break")
-            timeLeftDisplay.set(formatTime(MINI_BREAK_INTERVAL))
+            timeLeftDisplay.set(formatTime(MINI_BREAK_DURATION))
             showNotification("Mini Break", {
               body: "Take a 20-second break now!",
             })
             playSound()
-            return MINI_BREAK_INTERVAL
+            return MINI_BREAK_DURATION
           }
         }
         timeLeftDisplay.set(formatTime(newTimeLeft))
@@ -88,31 +88,18 @@
   })
 
   const skipBreak = () => {
-    // if (timer) clearInterval(timer);
     if ($state === "Ready") {
       return
     }
     state.set("Ready")
-    timeLeft.set(MINI_BREAK_DURATION)
-    timeLeftDisplay.set(formatTime(MINI_BREAK_DURATION))
-    // startTimer();
-  }
-
-  const postponeBreak = () => {
-    // if (timer) clearInterval(timer);
-    state.set("Ready")
-    // setTimeout(startTimer, 2 * MINI_BREAK_INTERVAL); // Postpone for 2 mini-break intervals
-    timeLeft.set(MINI_BREAK_DURATION) // Corrected line
-    timeLeftDisplay.set(formatTime(MINI_BREAK_DURATION)) // Use MINI_BREAK_INTERVAL directly
+    timeLeft.set(BREAK_INTERVAL)
+    timeLeftDisplay.set(formatTime(BREAK_INTERVAL))
   }
 
   function formatTime(milliseconds: number) {
     const totalSeconds = Math.floor(milliseconds / 1000)
     const minutes = Math.floor(totalSeconds / 60)
     const seconds = totalSeconds % 60
-    console.log(
-      `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
-    )
 
     return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
   }

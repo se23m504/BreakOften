@@ -1,7 +1,7 @@
 <script lang="ts">
   import { enhance } from "$app/forms"
-  import type { User } from "$lib"
-  import ThemePicker, { type Theme } from "./ThemePicker.svelte"
+  import type { Theme, User } from "$lib"
+  import ThemePicker from "./ThemePicker.svelte"
 
   let { theme, user } = $props<{ theme: Theme; user: User }>()
 

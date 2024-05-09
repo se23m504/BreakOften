@@ -1,10 +1,6 @@
-<script lang="ts" context="module">
-  export const themes = ["light", "dark"] as const
-  export type Theme = "light" | "dark"
-</script>
-
 <script lang="ts">
   import { browser } from "$app/environment"
+  import { themes, type Theme } from "$lib"
 
   let { theme } = $props<{ theme: Theme }>()
 
