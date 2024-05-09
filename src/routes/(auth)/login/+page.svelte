@@ -20,7 +20,7 @@
   {/if}
 
   {#if form?.credentials}
-    <p class="error">You have entered the wrong credentials.</p>
+    <p class="error">Username or password is incorrect.</p>
   {/if}
 
   <button type="submit">Log in</button>
@@ -49,7 +49,7 @@
   }
 
   .error {
-    @apply text-red-500 mt-4;
+    @apply text-red-500 mb-4;
   }
 
   button {

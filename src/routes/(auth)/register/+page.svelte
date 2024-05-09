@@ -1,22 +1,21 @@
 <script lang="ts">
-  import { enhance } from "$app/forms"
+  import { superForm } from "sveltekit-superforms"
 
-  export let form
+  let { data } = $props()
+  let { form, errors, enhance } = superForm(data.signUpForm)
 </script>
 
 <form action="?/register" method="POST" use:enhance>
-  <div>
-    <label for="username">Username</label>
-    <input id="username" name="username" type="text" required />
-  </div>
+  <label for="username">Username</label>
+  <input name="username" type="text" bind:value={$form.username} />
+  {#if $errors.username}
+    <p class="error">{$errors.username}</p>
+  {/if}
 
-  <div>
-    <label for="password">Password</label>
-    <input id="password" name="password" type="password" required />
-  </div>
-
-  {#if form?.user}
-    <p class="error">Username is taken.</p>
+  <label for="password">Password</label>
+  <input name="password" type="password" bind:value={$form.password} />
+  {#if $errors.password}
+    <p class="error">{$errors.password}</p>
   {/if}
 
   <button type="submit">Register</button>
@@ -45,7 +44,7 @@
   }
 
   .error {
-    @apply text-red-500 mt-4;
+    @apply text-red-500 mb-4;
   }
 
   button {

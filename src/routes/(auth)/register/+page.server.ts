@@ -7,29 +7,45 @@ export const load = async ({ locals }) => {
   if (locals.user) {
     throw redirect(302, "/")
   }
+
+  return {
+    signUpForm: await superValidate(zod(signUpSchema)),
+  }
 }
 
-export const actions = {
-  register: async ({ request }) => {
-    const data = await request.formData()
-    const username = data.get("username")
-    const password = data.get("password")
+import { setError, superValidate } from "sveltekit-superforms"
+import { zod } from "sveltekit-superforms/adapters"
+import * as z from "zod"
+import type { Actions } from "./$types"
 
-    if (
-      typeof username !== "string" ||
-      typeof password !== "string" ||
-      !username ||
-      !password
-    ) {
-      return fail(400, { invalid: true })
+const signUpSchema = z.object({
+  username: z.string().min(6).max(128).regex(
+    /^[a-zA-Z0-9_-]+$/,
+    "Username may only contain letters, numbers, hyphens, and underscores"
+  ),
+  password: z.string().min(8).max(128).regex(
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+}{"':;?/><.,\|]).{8,}$/,
+    "Password requires at least one lowercase letter, one uppercase letter, one digit, and one special character"
+  ),
+})
+
+export let actions: Actions = {
+  register: async ({ request }) => {
+    const form = await superValidate(request, zod(signUpSchema))
+    if (!form.valid) {
+      return fail(400, { form })
     }
+
+    const username = form.data.username
+    const password = form.data.password
 
     const user = await db.user.findUnique({
       where: { username },
     })
 
     if (user) {
-      return fail(400, { user: true })
+      setError(form, "username", "Username already exists")
+      return fail(400, { form })
     }
 
     await db.user.create({
