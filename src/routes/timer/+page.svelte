@@ -2,11 +2,23 @@
   import { onDestroy, onMount } from "svelte"
   import { browser } from "$app/environment"
 
-  let BREAK_INTERVAL_STORE = $state(browser ? (localStorage.getItem('breakInterval') || 20) : 20)
-  let MINI_BREAK_DURATION_STORE = $state(browser ? (localStorage.getItem('miniBreakDuration') || 20) : 20)
-  let LONG_BREAK_DURATION_STORE = $state(browser ? (localStorage.getItem('longBreakDuration') || 5) : 5)
-  let SOUND_ENABLED = $state(browser ? ((localStorage.getItem('soundEnabled') || 'true') === 'true') : true)
-  let NOTIFICATIONS_ENABLED = $state(browser ? ((localStorage.getItem('notificationsEnabled') || 'true') === 'true') : true)
+  let BREAK_INTERVAL_STORE = $state(
+    browser ? localStorage.getItem("breakInterval") || 20 : 20
+  )
+  let MINI_BREAK_DURATION_STORE = $state(
+    browser ? localStorage.getItem("miniBreakDuration") || 20 : 20
+  )
+  let LONG_BREAK_DURATION_STORE = $state(
+    browser ? localStorage.getItem("longBreakDuration") || 5 : 5
+  )
+  let SOUND_ENABLED = $state(
+    browser ? (localStorage.getItem("soundEnabled") || "true") === "true" : true
+  )
+  let NOTIFICATIONS_ENABLED = $state(
+    browser
+      ? (localStorage.getItem("notificationsEnabled") || "true") === "true"
+      : true
+  )
 
   let BREAK_INTERVAL: number
   let MINI_BREAK_DURATION: number
@@ -27,20 +39,20 @@
 
   $effect(() => {
     MINI_BREAK_DURATION = MINI_BREAK_DURATION_STORE * 1000
-    localStorage.setItem('miniBreakDuration', MINI_BREAK_DURATION_STORE)
+    localStorage.setItem("miniBreakDuration", MINI_BREAK_DURATION_STORE)
   })
 
   $effect(() => {
     LONG_BREAK_DURATION = LONG_BREAK_DURATION_STORE * 60 * 1000
-    localStorage.setItem('longBreakDuration', LONG_BREAK_DURATION_STORE)
+    localStorage.setItem("longBreakDuration", LONG_BREAK_DURATION_STORE)
   })
 
   $effect(() => {
-    localStorage.setItem('soundEnabled', SOUND_ENABLED)
+    localStorage.setItem("soundEnabled", SOUND_ENABLED)
   })
 
   $effect(() => {
-    localStorage.setItem('notificationsEnabled', NOTIFICATIONS_ENABLED)
+    localStorage.setItem("notificationsEnabled", NOTIFICATIONS_ENABLED)
   })
 
   let miniBreakCount = 0
@@ -142,87 +154,82 @@
 </script>
 
 <main>
-
-{#if !browser}
-  <div class="loading-spinner"/>
-{:else}
-
-
-  <div class="container">
-    <div class="settings">
-
-      <div class="setting">
-        <label for="break-interval"
-          >Break interval: {BREAK_INTERVAL_STORE} minutes</label
-        >
-        <input
-          type="range"
-          min="1"
-          max="60"
-          step="1"
-          bind:value={BREAK_INTERVAL_STORE}
-        />
-      </div>
-
-      <div class="setting">
-        <label for="mini-break-duration"
-          >Mini break duration: {MINI_BREAK_DURATION_STORE} seconds</label
-        >
-        <input
-          type="range"
-          min="5"
-          max="60"
-          step="1"
-          bind:value={MINI_BREAK_DURATION_STORE}
-        />
-      </div>
-
-      <div class="setting">
-        <label for="long-break-duration"
-          >Long break duration: {LONG_BREAK_DURATION_STORE} minutes</label
-        >
-        <input
-          type="range"
-          min="1"
-          max="30"
-          step="1"
-          bind:value={LONG_BREAK_DURATION_STORE}
-        />
-      </div>
-
-      <div class="setting">
-        <label>
-          <input type="checkbox" bind:checked={SOUND_ENABLED} />
-          Sound
-        </label>
-      </div>
-
-      <div class="setting">
-        <label>
-          <input type="checkbox" bind:checked={NOTIFICATIONS_ENABLED} />
-          Notifications
-        </label>
-      </div>
-    </div>
-  </div>
-
-  <div class="container">
-    <h1>Prevent CVS</h1>
-
-    <div class="timer">
-      {#if timerState !== "Ready"}
-        <div class="timer-content">
-          <p class="state">{timerState}</p>
-          <p>Time left until end of break: {timeLeftDisplay}</p>
-          <button on:click={skipBreak}>Skip break</button>
+  {#if !browser}
+    <div class="loading-spinner" />
+  {:else}
+    <div class="container">
+      <div class="settings">
+        <div class="setting">
+          <label for="break-interval"
+            >Break interval: {BREAK_INTERVAL_STORE} minutes</label
+          >
+          <input
+            type="range"
+            min="1"
+            max="60"
+            step="1"
+            bind:value={BREAK_INTERVAL_STORE}
+          />
         </div>
-      {:else}
-        <p>Time left until break: {timeLeftDisplay}</p>
-      {/if}
+
+        <div class="setting">
+          <label for="mini-break-duration"
+            >Mini break duration: {MINI_BREAK_DURATION_STORE} seconds</label
+          >
+          <input
+            type="range"
+            min="5"
+            max="60"
+            step="1"
+            bind:value={MINI_BREAK_DURATION_STORE}
+          />
+        </div>
+
+        <div class="setting">
+          <label for="long-break-duration"
+            >Long break duration: {LONG_BREAK_DURATION_STORE} minutes</label
+          >
+          <input
+            type="range"
+            min="1"
+            max="30"
+            step="1"
+            bind:value={LONG_BREAK_DURATION_STORE}
+          />
+        </div>
+
+        <div class="setting">
+          <label>
+            <input type="checkbox" bind:checked={SOUND_ENABLED} />
+            Sound
+          </label>
+        </div>
+
+        <div class="setting">
+          <label>
+            <input type="checkbox" bind:checked={NOTIFICATIONS_ENABLED} />
+            Notifications
+          </label>
+        </div>
+      </div>
     </div>
-  </div>
-  
-{/if}
+
+    <div class="container">
+      <h1>Prevent CVS</h1>
+
+      <div class="timer">
+        {#if timerState !== "Ready"}
+          <div class="timer-content">
+            <p class="state">{timerState}</p>
+            <p>Time left until end of break: {timeLeftDisplay}</p>
+            <button on:click={skipBreak}>Skip break</button>
+          </div>
+        {:else}
+          <p>Time left until break: {timeLeftDisplay}</p>
+        {/if}
+      </div>
+    </div>
+  {/if}
 </main>
 
 <style lang="postcss">
@@ -293,6 +300,4 @@
       transform: rotate(360deg);
     }
   }
-
-
 </style>
