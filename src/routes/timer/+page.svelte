@@ -3,7 +3,7 @@
   import { writable } from "svelte/store"
   import type { Writable } from "svelte/store"
 
-  const BREAK_INTERVAL_STORE: Writable<number> = writable(0.2)
+  const BREAK_INTERVAL_STORE: Writable<number> = writable(20)
   const MINI_BREAK_DURATION_STORE: Writable<number> = writable(20)
   const LONG_BREAK_DURATION_STORE: Writable<number> = writable(5)
   const SOUND_ENABLED: Writable<boolean> = writable(true)
