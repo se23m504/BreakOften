@@ -19,14 +19,22 @@ import * as z from "zod"
 import type { Actions } from "./$types"
 
 const signUpSchema = z.object({
-  username: z.string().min(6).max(128).regex(
-    /^[a-zA-Z0-9_-]+$/,
-    "Username may only contain letters, numbers, hyphens, and underscores"
-  ),
-  password: z.string().min(8).max(128).regex(
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+}{"':;?/><.,\|]).{8,}$/,
-    "Password requires at least one lowercase letter, one uppercase letter, one digit, and one special character"
-  ),
+  username: z
+    .string()
+    .min(6)
+    .max(128)
+    .regex(
+      /^[a-zA-Z0-9_-]+$/,
+      "Username may only contain letters, numbers, hyphens, and underscores"
+    ),
+  password: z
+    .string()
+    .min(8)
+    .max(128)
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+}{"':;?/><.,\|]).{8,}$/,
+      "Password requires at least one lowercase letter, one uppercase letter, one digit, and one special character"
+    ),
 })
 
 export let actions: Actions = {
