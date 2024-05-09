@@ -26,10 +26,16 @@
     timeLeft.set(BREAK_INTERVAL)
     timeLeftDisplay.set(formatTime(BREAK_INTERVAL))
   })
-  MINI_BREAK_DURATION_STORE.subscribe((value) => (MINI_BREAK_DURATION = value * 1000))
-  LONG_BREAK_DURATION_STORE.subscribe((value) => (LONG_BREAK_DURATION = value * 60 * 1000))
+  MINI_BREAK_DURATION_STORE.subscribe(
+    (value) => (MINI_BREAK_DURATION = value * 1000)
+  )
+  LONG_BREAK_DURATION_STORE.subscribe(
+    (value) => (LONG_BREAK_DURATION = value * 60 * 1000)
+  )
   SOUND_ENABLED.subscribe((value) => (SOUND_ENABLED_STATE = value))
-  NOTIFICATIONS_ENABLED.subscribe((value) => (NOTIFICATIONS_ENABLED_STATE = value))
+  NOTIFICATIONS_ENABLED.subscribe(
+    (value) => (NOTIFICATIONS_ENABLED_STATE = value)
+  )
 
   let miniBreakCount = 0
 
@@ -79,7 +85,6 @@
             timeLeftDisplay.set(formatTime(LONG_BREAK_DURATION))
             showNotification("Long Break", {
               body: `Take a ${LONG_BREAK_DURATION / (60 * 1000)}-second break now!`,
-
             })
             playSound()
             return LONG_BREAK_DURATION
@@ -133,18 +138,42 @@
       <h1>Prevent CVS</h1>
 
       <div class="setting">
-        <label for="break-interval">Break interval: {BREAK_INTERVAL / (60 * 1000)} minutes</label>
-        <input type="range" min="1" max="60" step="1" bind:value={$BREAK_INTERVAL_STORE} />
+        <label for="break-interval"
+          >Break interval: {BREAK_INTERVAL / (60 * 1000)} minutes</label
+        >
+        <input
+          type="range"
+          min="1"
+          max="60"
+          step="1"
+          bind:value={$BREAK_INTERVAL_STORE}
+        />
       </div>
 
       <div class="setting">
-        <label for="mini-break-duration">Mini break duration: {MINI_BREAK_DURATION / 1000} seconds</label>
-        <input type="range" min="5" max="60" step="1" bind:value={$MINI_BREAK_DURATION_STORE} />
+        <label for="mini-break-duration"
+          >Mini break duration: {MINI_BREAK_DURATION / 1000} seconds</label
+        >
+        <input
+          type="range"
+          min="5"
+          max="60"
+          step="1"
+          bind:value={$MINI_BREAK_DURATION_STORE}
+        />
       </div>
 
       <div class="setting">
-        <label for="long-break-duration">Long break duration: {LONG_BREAK_DURATION / (60 * 1000)} minutes</label>
-        <input type="range" min="1" max="30" step="1" bind:value={$LONG_BREAK_DURATION_STORE} />
+        <label for="long-break-duration"
+          >Long break duration: {LONG_BREAK_DURATION / (60 * 1000)} minutes</label
+        >
+        <input
+          type="range"
+          min="1"
+          max="30"
+          step="1"
+          bind:value={$LONG_BREAK_DURATION_STORE}
+        />
       </div>
 
       <div class="setting">
@@ -176,7 +205,6 @@
       {/if}
     </div>
   </div>
-
 </main>
 
 <style lang="postcss">
@@ -199,7 +227,8 @@
     position: relative;
   }
 
-  .timer, .settings {
+  .timer,
+  .settings {
     @apply text-black;
   }
 
