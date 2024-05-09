@@ -28,7 +28,7 @@
 
   let timerState = $state("Ready")
   let timeLeftDisplay = $state("")
-  let timeLeft = $state(BREAK_INTERVAL_STORE)
+  let timeLeft = $state(0)
 
   $effect(() => {
     BREAK_INTERVAL = BREAK_INTERVAL_STORE * 60 * 1000
