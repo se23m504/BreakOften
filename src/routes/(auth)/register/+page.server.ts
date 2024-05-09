@@ -1,6 +1,10 @@
 import { fail, redirect } from "@sveltejs/kit"
+import { setError, superValidate } from "sveltekit-superforms"
+import { zod } from "sveltekit-superforms/adapters"
+import * as z from "zod"
 import bcrypt from "bcrypt"
 
+import type { Actions } from "./$types"
 import { db } from "$lib/server/database"
 
 export const load = async ({ locals }) => {
@@ -12,11 +16,6 @@ export const load = async ({ locals }) => {
     signUpForm: await superValidate(zod(signUpSchema)),
   }
 }
-
-import { setError, superValidate } from "sveltekit-superforms"
-import { zod } from "sveltekit-superforms/adapters"
-import * as z from "zod"
-import type { Actions } from "./$types"
 
 const signUpSchema = z.object({
   username: z
