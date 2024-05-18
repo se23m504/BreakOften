@@ -2,7 +2,7 @@
   import { enhance } from "$app/forms"
   import type { Theme, User } from "$lib"
   import ThemePicker from "./ThemePicker.svelte"
-  import { page } from '$app/stores';
+  import { page } from "$app/stores"
 
   let { theme, user } = $props<{ theme: Theme; user: User }>()
 

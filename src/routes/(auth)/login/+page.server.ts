@@ -8,7 +8,7 @@ export const load = async ({ locals, url }) => {
     throw redirect(302, "/")
   }
 
-  let from = url.searchParams.get('from')
+  let from = url.searchParams.get("from")
 
   return { from }
 }

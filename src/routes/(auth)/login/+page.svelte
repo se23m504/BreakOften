@@ -3,7 +3,7 @@
 
   let { form, data } = $props()
 
-  const from = data.from || "/";
+  const from = data.from || "/"
 </script>
 
 <form action="?/login" method="POST" use:enhance>
@@ -12,7 +12,7 @@
     <input id="username" name="username" type="text" required />
   </div>
 
-  <input id="from" name="from" type="hidden" value={from}>
+  <input id="from" name="from" type="hidden" value={from} />
 
   <div>
     <label for="password">Password</label>
