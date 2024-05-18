@@ -21,37 +21,39 @@ In today's digital age, prolonged screen time is inevitable. BreakOften is your 
 
 Follow these steps to set up BreakOften on your local machine:
 
-1. **Clone the repository**: 
-    ```bash
-    git clone https://github.com/se23m504/BreakOften.git
-    cd BreakOften
-    ```
+1. **Clone the repository**:
+
+   ```bash
+   git clone https://github.com/se23m504/BreakOften.git
+   cd BreakOften
+   ```
 
 2. **Install dependencies**:
-    ```bash
-    npm install
-    ```
+
+   ```bash
+   npm install
+   ```
 
 3. **Setup environment variables**:
 
-    Create a `.env` file with your `DATABASE_URL`. You can start by copying the example file and then modify it:
+   Create a `.env` file with your `DATABASE_URL`. You can start by copying the example file and then modify it:
 
-    ```bash
-    cp .env.example .env
-    ```
+   ```bash
+   cp .env.example .env
+   ```
 
 4. **Set up database**:
-    
-    Push the Prisma schema to Supabase:
 
-    ```bash
-    npx prisma db push
-    ```
+   Push the Prisma schema to Supabase:
+
+   ```bash
+   npx prisma db push
+   ```
 
 5. **Run the development server**:
-    
-    Start the server and open your browser:
 
-    ```bash
-    npm run dev -- --open
-    ```
+   Start the server and open your browser:
+
+   ```bash
+   npm run dev -- --open
+   ```
