@@ -1,24 +1,41 @@
 <script lang="ts">
   import { onDestroy, onMount } from "svelte"
   import { browser } from "$app/environment"
+  import { enhance } from "$app/forms"
 
-  let BREAK_INTERVAL_STORE = $state(
-    browser ? localStorage.getItem("breakInterval") || 20 : 20
-  )
-  let MINI_BREAK_DURATION_STORE = $state(
-    browser ? localStorage.getItem("miniBreakDuration") || 20 : 20
-  )
-  let LONG_BREAK_DURATION_STORE = $state(
-    browser ? localStorage.getItem("longBreakDuration") || 5 : 5
-  )
-  let SOUND_ENABLED = $state(
-    browser ? (localStorage.getItem("soundEnabled") || "true") === "true" : true
-  )
-  let NOTIFICATIONS_ENABLED = $state(
-    browser
-      ? (localStorage.getItem("notificationsEnabled") || "true") === "true"
-      : true
-  )
+  let { data } = $props()
+
+  let BREAK_INTERVAL_STORE: any = $state(20)
+  let MINI_BREAK_DURATION_STORE: any = $state(20)
+  let LONG_BREAK_DURATION_STORE: any = $state(5)
+  let SOUND_ENABLED: any = $state(true)
+  let NOTIFICATIONS_ENABLED: any = $state(true)
+
+  $effect(() => {
+    if (!data.user || !data.timer) {
+      BREAK_INTERVAL_STORE = browser
+        ? localStorage.getItem("breakInterval") || 20
+        : 20
+      MINI_BREAK_DURATION_STORE = browser
+        ? localStorage.getItem("miniBreakDuration") || 20
+        : 20
+      LONG_BREAK_DURATION_STORE = browser
+        ? localStorage.getItem("longBreakDuration") || 5
+        : 5
+      SOUND_ENABLED = browser
+        ? (localStorage.getItem("soundEnabled") || "true") === "true"
+        : true
+      NOTIFICATIONS_ENABLED = browser
+        ? (localStorage.getItem("notificationsEnabled") || "true") === "true"
+        : true
+    } else {
+      BREAK_INTERVAL_STORE = data.timer.breakInterval
+      MINI_BREAK_DURATION_STORE = data.timer.miniBreakDuration
+      LONG_BREAK_DURATION_STORE = data.timer.longBreakDuration
+      SOUND_ENABLED = data.timer.soundEnabled
+      NOTIFICATIONS_ENABLED = data.timer.notificationsEnabled
+    }
+  })
 
   let BREAK_INTERVAL: number
   let MINI_BREAK_DURATION: number
@@ -30,29 +47,53 @@
   let timeLeftDisplay = $state("")
   let timeLeft = $state(0)
 
+  const updateTimer = () => {
+    if (!data.user) {
+      return
+    }
+    const formData = new FormData()
+    formData.append("user", data.user)
+    formData.append("break-interval", BREAK_INTERVAL_STORE)
+    formData.append("mini-break-duration", MINI_BREAK_DURATION_STORE)
+    formData.append("long-break-duration", LONG_BREAK_DURATION_STORE)
+    formData.append("sound-enabled", SOUND_ENABLED)
+    formData.append("notifications-enabled", NOTIFICATIONS_ENABLED)
+
+    fetch("?/updateTimer", {
+      method: "POST",
+      body: formData,
+    })
+  }
+
   $effect(() => {
     BREAK_INTERVAL = BREAK_INTERVAL_STORE * 60 * 1000
     timeLeft = BREAK_INTERVAL
     timeLeftDisplay = formatTime(BREAK_INTERVAL)
     localStorage.setItem("breakInterval", BREAK_INTERVAL_STORE)
+    updateTimer()
   })
 
   $effect(() => {
+    console.log(MINI_BREAK_DURATION_STORE)
     MINI_BREAK_DURATION = MINI_BREAK_DURATION_STORE * 1000
     localStorage.setItem("miniBreakDuration", MINI_BREAK_DURATION_STORE)
+    updateTimer()
   })
 
   $effect(() => {
     LONG_BREAK_DURATION = LONG_BREAK_DURATION_STORE * 60 * 1000
     localStorage.setItem("longBreakDuration", LONG_BREAK_DURATION_STORE)
+    updateTimer()
   })
 
   $effect(() => {
     localStorage.setItem("soundEnabled", SOUND_ENABLED)
+    updateTimer()
   })
 
   $effect(() => {
     localStorage.setItem("notificationsEnabled", NOTIFICATIONS_ENABLED)
+    updateTimer()
   })
 
   let miniBreakCount = 0
@@ -159,58 +200,76 @@
   {:else}
     <div class="container">
       <div class="settings">
-        <div class="setting">
-          <label for="break-interval"
-            >Break interval: {BREAK_INTERVAL_STORE} minutes</label
-          >
-          <input
-            type="range"
-            min="1"
-            max="60"
-            step="1"
-            bind:value={BREAK_INTERVAL_STORE}
-          />
-        </div>
+        <form method="POST" action="?/updateTimer" use:enhance>
+          <div class="setting">
+            <label for="break-interval"
+              >Break interval: {BREAK_INTERVAL_STORE} minutes</label
+            >
+            <input
+              type="range"
+              id="break-interval"
+              name="break-interval"
+              min="1"
+              max="60"
+              step="1"
+              bind:value={BREAK_INTERVAL_STORE}
+            />
+          </div>
 
-        <div class="setting">
-          <label for="mini-break-duration"
-            >Mini break duration: {MINI_BREAK_DURATION_STORE} seconds</label
-          >
-          <input
-            type="range"
-            min="5"
-            max="60"
-            step="1"
-            bind:value={MINI_BREAK_DURATION_STORE}
-          />
-        </div>
+          <div class="setting">
+            <label for="mini-break-duration"
+              >Mini break duration: {MINI_BREAK_DURATION_STORE} seconds</label
+            >
+            <input
+              id="mini-break-duration"
+              name="mini-break-duration"
+              type="range"
+              min="5"
+              max="60"
+              step="1"
+              bind:value={MINI_BREAK_DURATION_STORE}
+            />
+          </div>
 
-        <div class="setting">
-          <label for="long-break-duration"
-            >Long break duration: {LONG_BREAK_DURATION_STORE} minutes</label
-          >
-          <input
-            type="range"
-            min="1"
-            max="30"
-            step="1"
-            bind:value={LONG_BREAK_DURATION_STORE}
-          />
-        </div>
+          <div class="setting">
+            <label for="long-break-duration"
+              >Long break duration: {LONG_BREAK_DURATION_STORE} minutes</label
+            >
+            <input
+              id="long-break-duration"
+              name="long-break-duration"
+              type="range"
+              min="1"
+              max="30"
+              step="1"
+              bind:value={LONG_BREAK_DURATION_STORE}
+            />
+          </div>
 
-        <div class="setting">
-          <label>
-            <input type="checkbox" bind:checked={SOUND_ENABLED} />
-            Sound
-          </label>
-        </div>
+          <div class="setting">
+            <label>
+              <input
+                id="sound-enabled"
+                name="sound-enabled"
+                type="checkbox"
+                bind:checked={SOUND_ENABLED}
+              />
+              Sound
+            </label>
+          </div>
 
-        <div class="setting">
-          <label>
-            <input type="checkbox" bind:checked={NOTIFICATIONS_ENABLED} />
-            Notifications
-          </label>
-        </div>
+          <div class="setting">
+            <label>
+              <input
+                id="notifications-enabled"
+                name="notifications-enabled"
+                type="checkbox"
+                bind:checked={NOTIFICATIONS_ENABLED}
+              />
+              Notifications
+            </label>
+          </div>
+        </form>
       </div>
     </div>
 
