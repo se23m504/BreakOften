@@ -94,12 +94,6 @@
     margin-left: 0.4em;
   }
 
-  @media (max-width: 800px) {
-    nav:not(.visible):not(:focus-within) {
-      transform: translate(0, calc(var(--sk-nav-height)));
-    }
-  }
-
   .menu {
     position: relative;
     display: flex;
@@ -205,7 +199,7 @@
     margin-right: 0.5rem;
   }
 
-  @media (min-width: 800px) {
+  @media (min-width: 300px) {
     nav {
       display: grid;
       grid-template-columns: auto 1fr 1fr;
