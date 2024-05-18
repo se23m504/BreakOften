@@ -74,7 +74,6 @@
   })
 
   $effect(() => {
-    console.log(MINI_BREAK_DURATION_STORE)
     MINI_BREAK_DURATION = MINI_BREAK_DURATION_STORE * 1000
     localStorage.setItem("miniBreakDuration", MINI_BREAK_DURATION_STORE)
     updateTimer()
@@ -129,7 +128,6 @@
     timer = setInterval(() => {
       const newTimeLeft = timeLeft - 1000
       if (newTimeLeft <= 0) {
-        console.log(timerState)
         if (timerState !== "Ready") {
           timerState = "Ready"
           miniBreakCount++
@@ -162,7 +160,6 @@
       }
       timeLeftDisplay = formatTime(newTimeLeft)
       timeLeft = newTimeLeft
-      console.log(timeLeft)
     }, 1000)
   }
 

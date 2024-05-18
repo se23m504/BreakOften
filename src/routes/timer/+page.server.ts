@@ -1,4 +1,3 @@
-import { redirect, type ServerLoadEvent } from "@sveltejs/kit"
 import type { PageServerLoad } from "./$types"
 import { db } from "$lib/server/database"
 import type { User } from "$lib/index"
@@ -31,7 +30,6 @@ export const actions = {
   updateTimer: async ({ request, locals }) => {
     const user = locals.user
     const data = await request.formData()
-    console.log(data)
     const breakInterval = parseInt(data.get("break-interval"))
     const miniBreakDuration = parseInt(data.get("mini-break-duration"))
     const longBreakDuration = parseInt(data.get("long-break-duration"))

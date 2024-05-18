@@ -1,7 +1,9 @@
 <script lang="ts">
   import { enhance } from "$app/forms"
 
-  export let form
+  let { form, data } = $props()
+
+  const from = data.from || "/";
 </script>
 
 <form action="?/login" method="POST" use:enhance>
@@ -9,6 +11,8 @@
     <label for="username">Username</label>
     <input id="username" name="username" type="text" required />
   </div>
+
+  <input id="from" name="from" type="hidden" value={from}>
 
   <div>
     <label for="password">Password</label>

@@ -3,10 +3,14 @@ import bcrypt from "bcrypt"
 
 import { db } from "$lib/server/database"
 
-export const load = async ({ locals }) => {
+export const load = async ({ locals, url }) => {
   if (locals.user) {
     throw redirect(302, "/")
   }
+
+  let from = url.searchParams.get('from')
+
+  return { from }
 }
 
 export const actions = {
@@ -14,6 +18,7 @@ export const actions = {
     const data = await request.formData()
     const username = data.get("username")
     const password = data.get("password")
+    let from = data.get("from")
 
     if (
       typeof username !== "string" ||
@@ -49,6 +54,6 @@ export const actions = {
       maxAge: 60 * 60 * 24 * 30,
     })
 
-    throw redirect(302, "/")
+    throw redirect(302, from)
   },
 }

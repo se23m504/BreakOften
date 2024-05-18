@@ -2,6 +2,7 @@
   import { enhance } from "$app/forms"
   import type { Theme, User } from "$lib"
   import ThemePicker from "./ThemePicker.svelte"
+  import { page } from '$app/stores';
 
   let { theme, user } = $props<{ theme: Theme; user: User }>()
 
@@ -35,7 +36,11 @@
       {/each}
 
       {#if !user}
-        <a href="/login">Login</a>
+        {#if $page.url.pathname !== "/login" && $page.url.pathname !== "/register" && $page.url.pathname !== "/"}
+          <a href="/login?from={$page.url.pathname}">Login</a>
+        {:else}
+          <a href="/login">Login</a>
+        {/if}
         <a href="/register">Register</a>
       {/if}
 

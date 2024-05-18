@@ -19,7 +19,6 @@ async function fetchGuides(event: ServerLoadEvent) {
 
   if (res.ok) {
     let num = Math.floor(Math.random() * data.length)
-    console.log(data[num]["lines"])
     return data[num]["lines"]
   }
 }

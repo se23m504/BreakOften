@@ -11,6 +11,6 @@ export const actions = {
       expires: new Date(0),
     })
 
-    throw redirect(302, "/login")
+    throw redirect(302, "/")
   },
 }
