@@ -13,7 +13,7 @@ In today's digital age, prolonged screen time is inevitable. BreakOften is your 
 - **Flexibility**: Skip or postpone breaks according to your needs without disrupting your workflow.
 - **Customization**: Personalize your break schedule and timer settings. Logged-in users have their preferences saved in their profile, while others can use `localStorage`.
 - **Alerts**: Get notified with sound and visual alerts to ensure you never miss a break.
-- **Integration with Prisma and Supabase**: Secure user authentication and storage of user-defined variables like timer settings.
+- **Integration with Prisma and Vercel database**: Secure user authentication and storage of user-defined variables like timer settings.
 - **Theming**: Choose from dark or light mode.
 - **Offline support**: Lost connectivity? No problem — you can still use the timer, thanks to caching with `service-worker.js`.
 - **Fun extras**: Enjoy a touch of culture with Shakespeare quotes on your profile page.
@@ -45,7 +45,7 @@ Follow these steps to set up BreakOften on your local machine:
 
 4. **Set up database**:
 
-   Push the Prisma schema to Supabase:
+   Push the Prisma schema to Vercel:
 
    ```bash
    npx prisma db push
